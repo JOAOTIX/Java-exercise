@@ -5,7 +5,11 @@
 package gui;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -111,6 +115,7 @@ public class FrmBoleta extends javax.swing.JFrame {
         txtTotal = new javax.swing.JTextField();
         txtIGV = new javax.swing.JTextField();
         btnCalcularTotal = new javax.swing.JButton();
+        btnGenerarBoleta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -205,6 +210,13 @@ public class FrmBoleta extends javax.swing.JFrame {
             }
         });
 
+        btnGenerarBoleta.setText("GENERAR BOLETA");
+        btnGenerarBoleta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarBoletaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,7 +233,7 @@ public class FrmBoleta extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(78, 78, 78)
-                                .addComponent(cboProducto, 0, 135, Short.MAX_VALUE)
+                                .addComponent(cboProducto, 0, 292, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtPrecioUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(44, 44, 44)
@@ -281,9 +293,11 @@ public class FrmBoleta extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(123, 123, 123)
+                .addGap(63, 63, 63)
                 .addComponent(btnCalcularTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGenerarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(SubTotal1)
                     .addComponent(SubTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -300,45 +314,45 @@ public class FrmBoleta extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtBoletaNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBuscar)
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(txtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPrecioUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregar)
+                    .addComponent(cboProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCalcular))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtBoletaNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar)
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(txtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPrecioUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAgregar)
-                            .addComponent(cboProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCalcular))
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SubTotal)
                             .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -350,10 +364,9 @@ public class FrmBoleta extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SubTotal2)
                             .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(650, 650, 650)
-                        .addComponent(btnCalcularTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                    .addComponent(btnCalcularTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         pack();
@@ -455,10 +468,77 @@ public class FrmBoleta extends javax.swing.JFrame {
             
         }
         txtSubTotal.setText(sumaTotal+"");
-        txtIGV.setText(igv*100+"%");
+        txtIGV.setText(String.format("%.2f", sumaTotal * igv));
         total=sumaTotal+sumaTotal*igv;
         txtTotal.setText(total+"");
     }//GEN-LAST:event_btnCalcularTotalActionPerformed
+
+    private void btnGenerarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarBoletaActionPerformed
+       String numeroBoleta = txtBoletaNum.getText();
+    String fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    String dni = txtDni.getText();
+    String subtotal = txtSubTotal.getText();
+    String igv = txtIGV.getText();
+    String total = txtTotal.getText();
+    
+    try {
+        // Guardar Boleta General
+        FileWriter fwBoleta = new FileWriter("C:\\Sistema\\TXTBOLETA.txt", true);
+        PrintWriter pwBoleta = new PrintWriter(fwBoleta);
+        pwBoleta.println(numeroBoleta + "-" + fecha + "-" + dni + "-" + subtotal + "-" + igv + "-" + total);
+        pwBoleta.close();
+        fwBoleta.close();
+        
+        // Guardar Detalles de la Boleta y Actualizar Stock
+        FileWriter fwBoletaDet = new FileWriter("C:\\Sistema\\TXTBOLETADET.txt", true);
+        PrintWriter pwBoletaDet = new PrintWriter(fwBoletaDet);
+        
+        File archivoProductos = new File("C:\\Sistema\\TXTPRODUCTOS.txt");
+        Scanner leer = new Scanner(archivoProductos);
+        ArrayList<String> productosActualizados = new ArrayList<>();
+        
+        while (leer.hasNextLine()) {
+            String linea = leer.nextLine();
+            String[] datos = linea.split("-");
+            String nombreProducto = datos[0];
+            double precioUnit = Double.parseDouble(datos[1]);
+            int stock = Integer.parseInt(datos[2]);
+            
+            for (int i = 0; i < modelotabla.getRowCount(); i++) {
+                String prod = modelotabla.getValueAt(i, 1).toString();
+                int cantidadVendida = Integer.parseInt(modelotabla.getValueAt(i, 0).toString());
+                double importe = Double.parseDouble(modelotabla.getValueAt(i, 3).toString());
+                
+                if (prod.equals(nombreProducto)) {
+                    if (stock >= cantidadVendida) {
+                        stock -= cantidadVendida;
+                        pwBoletaDet.println(numeroBoleta + "-" + cantidadVendida + "-" + prod + "-" + precioUnit + "-" + importe);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Stock insuficiente para " + prod);
+                    }
+                }
+            }
+            productosActualizados.add(nombreProducto + "-" + precioUnit + "-" + stock);
+        }
+        leer.close();
+        
+        // Escribir el archivo de productos actualizado
+        FileWriter fwProductos = new FileWriter("C:\\Sistema\\TXTPRODUCTOS.txt");
+        PrintWriter pwProductos = new PrintWriter(fwProductos);
+        for (String prod : productosActualizados) {
+            pwProductos.println(prod);
+        }
+        pwProductos.close();
+        fwProductos.close();
+        
+        pwBoletaDet.close();
+        fwBoletaDet.close();
+        
+        JOptionPane.showMessageDialog(rootPane, "Boleta generada correctamente.");
+    } catch (Exception e) {
+        System.err.println("Error: " + e);
+    }
+    }//GEN-LAST:event_btnGenerarBoletaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -503,6 +583,7 @@ public class FrmBoleta extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnCalcularTotal;
+    private javax.swing.JButton btnGenerarBoleta;
     private javax.swing.JComboBox<String> cboProducto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
