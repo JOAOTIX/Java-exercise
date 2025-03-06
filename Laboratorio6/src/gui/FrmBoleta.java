@@ -31,24 +31,30 @@ public class FrmBoleta extends javax.swing.JFrame {
     }
 
     void CargarBoletaNumero() {
-        String linea;
-        int numero;
-        try {
-            File archivo = new File("C:\\Sistema\\TXTSERIE.txt");
-            Scanner leer = new Scanner(archivo);
-            if (leer.hasNextLine()) {
-                linea = leer.nextLine();
-                String[] registro = linea.split("-");
-                numero = Integer.parseInt(registro[1]) + 1;
-                txtBoletaNum.setText(registro[0] + "-" + numero);
+          String linea;
+    int numero;
+    File archivo = new File("C:\\Sistema\\TXTSERIE.txt");
+
+    try {
+       
+        Scanner leer = new Scanner(archivo);
+        if (leer.hasNextLine()) {
+            linea = leer.nextLine();
+            String[] registro = linea.split("-");
+            numero = Integer.parseInt(registro[1]) + 1;
+            String nuevaBoleta = registro[0] + "-" + numero;
+
+            txtBoletaNum.setText(nuevaBoleta);
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
+                writer.println(nuevaBoleta);
             }
-            leer.close();
-
-        } catch (Exception e) {
-            System.err.println("Error" + e);
-
         }
+        leer.close();
+    } catch (Exception e) {
+        System.err.println("Error: " + e.getMessage());
     }
+}
 
     void CargarProductos() {
         String linea;
@@ -233,7 +239,7 @@ public class FrmBoleta extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(78, 78, 78)
-                                .addComponent(cboProducto, 0, 292, Short.MAX_VALUE)
+                                .addComponent(cboProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtPrecioUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(44, 44, 44)
@@ -291,7 +297,7 @@ public class FrmBoleta extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addComponent(btnCalcularTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,7 +357,7 @@ public class FrmBoleta extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SubTotal)
@@ -364,9 +370,9 @@ public class FrmBoleta extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SubTotal2)
                             .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnCalcularTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGenerarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(78, Short.MAX_VALUE))
+                    .addComponent(btnGenerarBoleta, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(btnCalcularTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         pack();
@@ -374,6 +380,10 @@ public class FrmBoleta extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         String cant, prod, preU, imp;
+        if (txtImporte.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Porfavor presiona el boton calcular antes que el de agregar", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         cant = txtCantidad.getText();
         prod = cboProducto.getSelectedItem().toString();
         preU = txtPrecioUnit.getText();
@@ -386,6 +396,7 @@ public class FrmBoleta extends javax.swing.JFrame {
         fila[3] = imp;
 
         modelotabla.addRow(fila);
+        txtImporte.setText("");
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -456,88 +467,88 @@ public class FrmBoleta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtImporteActionPerformed
 
     private void btnCalcularTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularTotalActionPerformed
-
-       double igv=0.18;
-      double sumaTotal = 0.0;
-      double total=0.0;
+        
+        double igv = 0.18;
+        double sumaTotal = 0.0;
+        double total = 0.0;
         for (int i = 0; i < modelotabla.getRowCount(); i++) {
-            
+
             String impStr = modelotabla.getValueAt(i, 3).toString();
-                double imp = Double.parseDouble(impStr); 
-                sumaTotal += imp; 
-            
+            double imp = Double.parseDouble(impStr);
+            sumaTotal += imp;
+
         }
-        txtSubTotal.setText(sumaTotal+"");
+        txtSubTotal.setText(sumaTotal + "");
         txtIGV.setText(String.format("%.2f", sumaTotal * igv));
-        total=sumaTotal+sumaTotal*igv;
-        txtTotal.setText(total+"");
+        total = sumaTotal + sumaTotal * igv;
+        txtTotal.setText(total + "");
     }//GEN-LAST:event_btnCalcularTotalActionPerformed
 
     private void btnGenerarBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarBoletaActionPerformed
-       String numeroBoleta = txtBoletaNum.getText();
-    String fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-    String dni = txtDni.getText();
-    String subtotal = txtSubTotal.getText();
-    String igv = txtIGV.getText();
-    String total = txtTotal.getText();
-    
-    try {
-        // Guardar Boleta General
-        FileWriter fwBoleta = new FileWriter("C:\\Sistema\\TXTBOLETA.txt", true);
-        PrintWriter pwBoleta = new PrintWriter(fwBoleta);
-        pwBoleta.println(numeroBoleta + "-" + fecha + "-" + dni + "-" + subtotal + "-" + igv + "-" + total);
-        pwBoleta.close();
-        fwBoleta.close();
-        
-        // Guardar Detalles de la Boleta y Actualizar Stock
-        FileWriter fwBoletaDet = new FileWriter("C:\\Sistema\\TXTBOLETADET.txt", true);
-        PrintWriter pwBoletaDet = new PrintWriter(fwBoletaDet);
-        
-        File archivoProductos = new File("C:\\Sistema\\TXTPRODUCTOS.txt");
-        Scanner leer = new Scanner(archivoProductos);
-        ArrayList<String> productosActualizados = new ArrayList<>();
-        
-        while (leer.hasNextLine()) {
-            String linea = leer.nextLine();
-            String[] datos = linea.split("-");
-            String nombreProducto = datos[0];
-            double precioUnit = Double.parseDouble(datos[1]);
-            int stock = Integer.parseInt(datos[2]);
-            
-            for (int i = 0; i < modelotabla.getRowCount(); i++) {
-                String prod = modelotabla.getValueAt(i, 1).toString();
-                int cantidadVendida = Integer.parseInt(modelotabla.getValueAt(i, 0).toString());
-                double importe = Double.parseDouble(modelotabla.getValueAt(i, 3).toString());
-                
-                if (prod.equals(nombreProducto)) {
-                    if (stock >= cantidadVendida) {
-                        stock -= cantidadVendida;
-                        pwBoletaDet.println(numeroBoleta + "-" + cantidadVendida + "-" + prod + "-" + precioUnit + "-" + importe);
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "Stock insuficiente para " + prod);
+        String numeroBoleta = txtBoletaNum.getText();
+        String fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        String dni = txtDni.getText();
+        String subtotal = txtSubTotal.getText();
+        String igv = txtIGV.getText();
+        String total = txtTotal.getText();
+
+        try {
+            // Guardar Boleta General
+            FileWriter fwBoleta = new FileWriter("C:\\Sistema\\TXTBOLETA.txt", true);
+            PrintWriter pwBoleta = new PrintWriter(fwBoleta);
+            pwBoleta.println(numeroBoleta + "-" + fecha + "-" + dni + "-" + subtotal + "-" + igv + "-" + total);
+            pwBoleta.close();
+            fwBoleta.close();
+
+            // Guardar Detalles de la Boleta y Actualizar Stock
+            FileWriter fwBoletaDet = new FileWriter("C:\\Sistema\\TXTBOLETADET.txt", true);
+            PrintWriter pwBoletaDet = new PrintWriter(fwBoletaDet);
+
+            File archivoProductos = new File("C:\\Sistema\\TXTPRODUCTOS.txt");
+            Scanner leer = new Scanner(archivoProductos);
+            ArrayList<String> productosActualizados = new ArrayList<>();
+
+            while (leer.hasNextLine()) {
+                String linea = leer.nextLine();
+                String[] datos = linea.split("-");
+                String nombreProducto = datos[0];
+                double precioUnit = Double.parseDouble(datos[1]);
+                int stock = Integer.parseInt(datos[2]);
+
+                for (int i = 0; i < modelotabla.getRowCount(); i++) {
+                    String prod = modelotabla.getValueAt(i, 1).toString();
+                    int cantidadVendida = Integer.parseInt(modelotabla.getValueAt(i, 0).toString());
+                    double importe = Double.parseDouble(modelotabla.getValueAt(i, 3).toString());
+
+                    if (prod.equals(nombreProducto)) {
+                        if (stock >= cantidadVendida) {
+                            stock -= cantidadVendida;
+                            pwBoletaDet.println(numeroBoleta + "-" + cantidadVendida + "-" + prod + "-" + precioUnit + "-" + importe);
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Stock insuficiente para " + prod);
+                        }
                     }
                 }
+                productosActualizados.add(nombreProducto + "-" + precioUnit + "-" + stock);
             }
-            productosActualizados.add(nombreProducto + "-" + precioUnit + "-" + stock);
+            leer.close();
+
+            // Escribir el archivo de productos actualizado
+            FileWriter fwProductos = new FileWriter("C:\\Sistema\\TXTPRODUCTOS.txt");
+            PrintWriter pwProductos = new PrintWriter(fwProductos);
+            for (String prod : productosActualizados) {
+                pwProductos.println(prod);
+            }
+            pwProductos.close();
+            fwProductos.close();
+
+            pwBoletaDet.close();
+            fwBoletaDet.close();
+
+            JOptionPane.showMessageDialog(rootPane, "Boleta generada correctamente.");
+        } catch (Exception e) {
+            System.err.println("Error: " + e);
         }
-        leer.close();
-        
-        // Escribir el archivo de productos actualizado
-        FileWriter fwProductos = new FileWriter("C:\\Sistema\\TXTPRODUCTOS.txt");
-        PrintWriter pwProductos = new PrintWriter(fwProductos);
-        for (String prod : productosActualizados) {
-            pwProductos.println(prod);
-        }
-        pwProductos.close();
-        fwProductos.close();
-        
-        pwBoletaDet.close();
-        fwBoletaDet.close();
-        
-        JOptionPane.showMessageDialog(rootPane, "Boleta generada correctamente.");
-    } catch (Exception e) {
-        System.err.println("Error: " + e);
-    }
     }//GEN-LAST:event_btnGenerarBoletaActionPerformed
 
     /**

@@ -122,8 +122,6 @@ public class FrmLogin extends javax.swing.JFrame {
            }else{
            JOptionPane.showMessageDialog(null,"CLAVE INCORRECTA","ADVERTENCIA",JOptionPane.WARNING_MESSAGE);
            }
-            
-
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
