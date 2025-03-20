@@ -29,6 +29,7 @@
             EscribeArchivo.add(alu1, path);
         %>
         <h1>Tu registro se hizo con éxito</h1>
+       
         <form action="ejem-7.jsp" method="post">
             <input type="submit" value="Nuevo registro">
         </form>
