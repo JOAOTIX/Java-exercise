@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
-    Created on : 19 mar. 2025, 12:50:22
-    Author     : Alumno
+    Created on : 24 mar. 2025, 8:41:36 p. m.
+    Author     : Deku
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,23 +9,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login</title>
+        <title>LOGIN</title>
     </head>
     <body>
-        <h1>Ingreso al sistema:</h1>
-        <form action="Procesar" method="post">
-            <table border="1">
+        <h1>Bienvenido al sistema de gestión de la ferreteria SENATI</h1>
+        <form action="Procesar" method="POST">
+            <table border="1">               
                 <tr>
-                    <td>Usuario:</td>
+                    <td>Ingresa tu usuario:</td>
                     <td><input type="text" name="user"></td>
                 </tr>
                 <tr>
-                    <td>Contraseña:</td>
-                    <td><input type="text" name="clave"></td>
+                    <td>Ingresa tu contraseña:</td>
+                    <td><input type="text" name="password"></td>
                 </tr>
             </table>
-            <input type="reset" value="Borrar">
             <input type="submit" value="Ingresar">
         </form>
+
     </body>
 </html>

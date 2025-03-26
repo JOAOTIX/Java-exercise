@@ -5,32 +5,48 @@
 package servlet;
 
 import clases.GestorBD;
+import clases.Producto;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
-@WebServlet(name = "Procesar", urlPatterns = {"/Procesar"})
-public class Procesar extends HttpServlet {
+/**
+ *
+ * @author Deku
+ */
+@WebServlet(name = "Validar", urlPatterns = {"/Validar"})
+public class Validar extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String usuario=request.getParameter("user");
+         String usuario=request.getParameter("usuario");
         String clave=request.getParameter("clave");
         GestorBD gestorbd=new GestorBD();
-
-        try {
+        
             if(gestorbd.ConsultarUsuario(usuario, clave)){
+              Producto producto=new Producto();
+              List<Producto> listaProductos=gestorbd.ConsultarProductos();
               
+              request.setAttribute("productos", listaProductos);
                 request.getRequestDispatcher("/sistema.jsp").forward(request, response);
             }else{
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e);
-        }}
+        }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

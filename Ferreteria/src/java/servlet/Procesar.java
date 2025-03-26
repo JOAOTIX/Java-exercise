@@ -5,32 +5,50 @@
 package servlet;
 
 import clases.GestorBD;
+import clases.Producto;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
+/**
+ *
+ * @author Deku
+ */
 @WebServlet(name = "Procesar", urlPatterns = {"/Procesar"})
 public class Procesar extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String usuario=request.getParameter("user");
-        String clave=request.getParameter("clave");
-        GestorBD gestorbd=new GestorBD();
-
-        try {
-            if(gestorbd.ConsultarUsuario(usuario, clave)){
-              
-                request.getRequestDispatcher("/sistema.jsp").forward(request, response);
-            }else{
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e);
-        }}
+        String user=request.getParameter("user");
+        String clave=request.getParameter("password");
+        
+        GestorBD gestor=new GestorBD();
+        
+        
+        if(gestor.ConsultarUsuario(user, clave)){
+            Producto producto=new Producto();
+            
+            List <Producto> listaProducto=gestor.ConsultarProductos();
+            request.setAttribute("productos", listaProducto);
+            request.getRequestDispatcher("/Ferreteria.jsp").forward(request, response);
+        }else{
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
