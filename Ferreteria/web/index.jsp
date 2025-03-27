@@ -1,31 +1,29 @@
-<%-- 
-    Document   : index
-    Created on : 24 mar. 2025, 8:41:36 p. m.
-    Author     : Deku
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>LOGIN</title>
-    </head>
-    <body>
-        <h1>Bienvenido al sistema de gestión de la ferreteria SENATI</h1>
-        <form action="Procesar" method="POST">
-            <table border="1">               
-                <tr>
-                    <td>Ingresa tu usuario:</td>
-                    <td><input type="text" name="user"></td>
-                </tr>
-                <tr>
-                    <td>Ingresa tu contraseña:</td>
-                    <td><input type="text" name="password"></td>
-                </tr>
-            </table>
-            <input type="submit" value="Ingresar">
-        </form>
-
-    </body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 350px;">
+        <div class="card-body text-center">
+            <h3 class="card-title mb-4">Ferretería SENATI</h3>
+            <form action="Procesar" method="POST">
+                <div class="mb-3">
+                    <label for="user" class="form-label">Usuario</label>
+                    <input type="text" id="user" name="user" class="form-control" placeholder="Ingresa tu usuario" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
