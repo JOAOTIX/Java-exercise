@@ -16,9 +16,7 @@
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1>Bienvenido</h1>
-                <form action="Agregar.jsp" method="POST">
-                    <input class="btn btn-success" type="submit" value="Agregar producto">
-                </form>
+                <a href="Agregar.jsp" class="btn btn-success">Agregar producto</a>
             </div>
 
             <div class="table-responsive shadow-lg">

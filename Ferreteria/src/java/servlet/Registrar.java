@@ -33,7 +33,29 @@ public class Registrar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+         Producto prod=new Producto();
+        String nombre=request.getParameter("nombre");
+        String des=request.getParameter("desc");
+        int stock=Integer.parseInt(request.getParameter("stock"));
+        String cat=request.getParameter("cat");
+        double pventa=Double.parseDouble(request.getParameter("pventa"));
+        double pcompra=Double.parseDouble(request.getParameter("pcompra"));
+        
+        prod.setName(nombre);
+        prod.setDescrip(des);
+        prod.setStock(stock);
+        prod.setCategoria(cat);
+        prod.setPventa(pventa);
+        prod.setPcompra(pcompra);
+        System.out.println(prod);
+        GestorBD gestor=new GestorBD();
+        if(gestor.AgregarProductos(prod)){
+             List <Producto> listaProducto=gestor.ConsultarProductos();
+             request.setAttribute("productos", listaProducto);
+            request.getRequestDispatcher("/Ferreteria.jsp").forward(request, response);
+        }else{
+            request.getRequestDispatcher("/Agregar.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,6 +71,7 @@ public class Registrar extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+         
     }
 
     /**
@@ -62,32 +85,9 @@ public class Registrar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         Producto prod=new Producto();
-        String nombre=request.getParameter("nombre");
-        String des=request.getParameter("desc");
-        int stock=Integer.parseInt(request.getParameter("stock"));
-        String cat=request.getParameter("cat");
-        double pventa=Double.parseDouble(request.getParameter("pventa"));
-        double pcompra=Double.parseDouble(request.getParameter("pcompra"));
-        
-        prod.setName(nombre);
-        prod.setDescrip(des);
-        prod.setStock(stock);
-        prod.setCategoria(cat);
-        prod.setPventa(pventa);
-        prod.setPcompra(pcompra);
-        int agregar=0;
-        GestorBD gestor=new GestorBD();
-        if(gestor.AgregarProductos(prod)){
-             List <Producto> listaProducto=gestor.ConsultarProductos();
-             request.setAttribute("productos", listaProducto);
-            request.getRequestDispatcher("/Ferreteria.jsp").forward(request, response);
-        }else{
-            
-            request.setAttribute("value", agregar);
-            request.getRequestDispatcher("/Agregar.jsp").forward(request, response);
-        }
+            processRequest(request, response);
     }
+    
 
     /**
      * Returns a short description of the servlet.

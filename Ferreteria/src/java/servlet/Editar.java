@@ -53,7 +53,7 @@ public class Editar extends HttpServlet {
         if(gestor.ActulizarProductos(prod)){
              List <Producto> listaProducto=gestor.ConsultarProductos();
              request.setAttribute("productos", listaProducto);
-            request.getRequestDispatcher("Ferreteria.jsp").forward(request, response);
+            request.getRequestDispatcher("/Ferreteria.jsp").forward(request, response);
         }else{
             
             request.getRequestDispatcher("/Agregar.jsp").forward(request, response);
