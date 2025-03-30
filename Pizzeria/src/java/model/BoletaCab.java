@@ -13,17 +13,15 @@ public class BoletaCab {
     private String numBol;
     private String fecha;
     private String dniCli;
-    private double imp;
     private double igv;
     private double total;
 
     // Constructor
-    public BoletaCab(String numBol, String fecha, String dniCli, double imp, double igv, double total) {
+    public BoletaCab(String numBol, String fecha, String dniCli,  double igv, double total) {
         this.numBol = numBol;
         this.fecha = fecha;
         this.dniCli = dniCli;
-        this.imp = imp;
-        this.igv = igv;
+         this.igv = igv;
         this.total = total;
     }
 
@@ -52,13 +50,7 @@ public class BoletaCab {
         this.dniCli = dniCli;
     }
 
-    public double getImp() {
-        return imp;
-    }
-
-    public void setImp(double imp) {
-        this.imp = imp;
-    }
+   
 
     public double getIgv() {
         return igv;

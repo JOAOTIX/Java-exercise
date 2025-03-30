@@ -47,16 +47,15 @@ public class BoletaCabDAO {
 
     // Método para insertar una boleta en la base de datos
     public void insertarBoleta(BoletaCab boleta) {
-        String sql = "INSERT INTO boleta_cab (NumBol, Fecha, DNIcli, Imp, Igv, Total) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO boleta_cab (NumBol, Fecha, DNIcli, Igv, Total) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConectarBD.abrir();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, boleta.getNumBol());
             stmt.setString(2, boleta.getFecha());
             stmt.setString(3, boleta.getDniCli());
-            stmt.setDouble(4, boleta.getImp());
-            stmt.setDouble(5, boleta.getIgv());
-            stmt.setDouble(6, boleta.getTotal());
+            stmt.setDouble(4, boleta.getIgv());
+            stmt.setDouble(5, boleta.getTotal());
 
             stmt.executeUpdate();
             System.out.println("Boleta registrada correctamente.");
@@ -69,7 +68,7 @@ public class BoletaCabDAO {
     // Método para obtener todas las boletas
     public List<BoletaCab> obtenerBoletas() {
         List<BoletaCab> lista = new ArrayList<>();
-        String sql = "SELECT NumBol, Fecha, DNIcli, Imp, Igv, Total FROM boleta_cab";
+        String sql = "SELECT NumBol, Fecha, DNIcli, Igv, Total FROM boleta_cab";
 
         try (Connection conn = ConectarBD.abrir();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -80,7 +79,6 @@ public class BoletaCabDAO {
                     rs.getString("NumBol"),
                     rs.getString("Fecha"),
                     rs.getString("DNIcli"),
-                    rs.getDouble("Imp"),
                     rs.getDouble("Igv"),
                     rs.getDouble("Total")
                 );
@@ -107,7 +105,6 @@ public class BoletaCabDAO {
                     rs.getString("NumBol"),
                     rs.getString("Fecha"),
                     rs.getString("DNIcli"),
-                    rs.getDouble("Imp"),
                     rs.getDouble("Igv"),
                     rs.getDouble("Total")
                 );

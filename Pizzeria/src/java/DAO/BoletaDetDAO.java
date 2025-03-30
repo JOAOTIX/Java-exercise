@@ -13,7 +13,7 @@ public class BoletaDetDAO {
 
     // Método para insertar un detalle de boleta
     public void insertarBoletaDet(BoletaDet detalle) {
-        String sql = "INSERT INTO boleta_det (numBol, codProd, cant, punt, importe) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO boleta_det (NumBol, CodProd, Cant, Punt, Importe) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConectarBD.abrir();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 

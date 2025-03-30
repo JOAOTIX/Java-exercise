@@ -110,7 +110,7 @@ public class PagarOrden extends HttpServlet {
             double totalConIgv = imp + igv;
             
             // Crear objeto BoletaCab con los parámetros correctos:
-            BoletaCab boletaCab = new BoletaCab(numBol, fechaActual, dniCliente, imp, igv, totalConIgv);
+            BoletaCab boletaCab = new BoletaCab(numBol, fechaActual, dniCliente, igv, totalConIgv);
             
             // Insertar la cabecera de la boleta en la BD
             boletaCabDAO.insertarBoleta(boletaCab);

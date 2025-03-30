@@ -76,6 +76,7 @@
                             <th>Importe</th>
                             <th>IGV 18%</th>
                             <th>Monto Total (S/.)</th>
+                            <th>PDF</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +94,25 @@
                             <td><%= boleta.getPunt()%></td>
                             <td>S/. <%= String.format("%.2f", boleta.getImporte())%></td>
                             <td><%= boleta.getIgv()%></td>
-                            <td><%= boleta.getTotal()%></td>
+                            <td>S/. <%= String.format("%.2f", boleta.getTotal())%></td>
+                            <td>
+                                <form action="GenerarPDF" method="POST">
+                                    <input type="hidden" name="orden" value="<%= boleta.getNumBol()%>">
+                                    <input type="hidden" name="fecha" value="<%= boleta.getFecha()%>">
+                                    <input type="hidden" name="dni" value="<%= boleta.getDniCli()%>">
+                                    <input type="hidden" name="nombre" value="<%= boleta.getClienteNombre()%>">
+                                    <input type="hidden" name="codPro" value="<%= boleta.getCodProd()%>">
+                                    <input type="hidden" name="nombrePro" value="<%= boleta.getProductoNombre()%>">
+                                    <input type="hidden" name="cantidad" value="<%= boleta.getCant()%>">
+                                    <input type="hidden" name="precioUni" value="<%= boleta.getPunt()%>">
+                                    <input type="hidden" name="imp" value="<%= boleta.getImporte()%>">
+                                    <input type="hidden" name="igv" value="<%= boleta.getIgv()%>">
+                                    <input type="hidden" name="total" value="<%= boleta.getTotal() %>">
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="fas fa-credit-card"></i> Descargar PDF
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         <%
                             }
