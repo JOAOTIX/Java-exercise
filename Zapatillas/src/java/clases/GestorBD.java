@@ -7,6 +7,8 @@ package clases;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,62 @@ public class GestorBD {
     public Statement stm;
     public ResultSet rs;
     public String sql;
+     public Boolean ActulizarProductos(Zapatillas prod) {
+        try {
+            cn = ConexionBD.abrir();
+            stm = cn.createStatement();
+            sql = "update productos set nombre='"+prod.getName()+"',marca='"+prod.getMarca()+"',talla='"+prod.getTalla()+"',stock="+prod.getStock()+",pventa="+prod.getPventa()+",pcosto="+prod.getPcosto()+"where id="+prod.getId();
+            stm.executeUpdate(sql);
+            System.out.println(sql);
+            ConexionBD.cerrar();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR:" + e);
+            return false;
+        }
+
+    }
+     public Boolean EliminarProductos(int cod) {
+        try {
+            cn = ConexionBD.abrir();
+            stm = cn.createStatement();
+            sql = "delete from productos where id="+cod;
+            stm.executeUpdate(sql);
+            ConexionBD.cerrar();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR:" + e);
+            return false;
+        }
+
+    }
+
+    public Boolean AgregarProductos(Zapatillas prod) {
+    try {
+        cn = ConexionBD.abrir();
+        String sql = "INSERT INTO productos (nombre, marca, talla, stock, pventa, pcosto) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = cn.prepareStatement(sql);
+        ps.setString(1, prod.getName());
+        ps.setString(2, prod.getMarca());
+        ps.setString(3, prod.getTalla());
+        ps.setInt(4, prod.getStock());
+        ps.setDouble(5, prod.getPventa());
+        ps.setDouble(6, prod.getPcosto());
+        ps.executeUpdate();
+        System.out.println(sql);
+        System.out.println("Producto agregado correctamente.");
+        ConexionBD.cerrar();
+        return true;
+    } catch (SQLException e) {
+        e.printStackTrace();
+
+        return false;
+    } catch (Exception e) {
+        System.out.println("ERROR GENERAL: " + e);
+        return false;
+    }
+}
+
     public List<Zapatillas> ConsultarProductos(){
         
         List<Zapatillas> listaProductos=new ArrayList<> ();

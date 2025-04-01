@@ -20,6 +20,52 @@ public class GestorBD {
     public Statement stm;
     public ResultSet rs;
     public String sql;
+     public Boolean ActulizarProductos(Producto prod) {
+        try {
+            cn = ConectarBD.abrir();
+            stm = cn.createStatement();
+            sql = "update tbproductos set nombre='"+prod.getNombre()+"',stock="+prod.getStock()+",pcompra="+prod.getPcompra()+",pventa="+prod.getPventa()+"where id="+prod.getCode();
+            stm.executeUpdate(sql);
+            System.out.println(sql);
+            ConectarBD.cerrar();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR:" + e);
+            return false;
+        }
+
+    }
+     public Boolean EliminarProductos(int cod) {
+        try {
+            cn = ConectarBD.abrir();
+            stm = cn.createStatement();
+            sql = "delete from tbproductos where id="+cod;
+            stm.executeUpdate(sql);
+            ConectarBD.cerrar();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR:" + e);
+            return false;
+        }
+
+    }
+
+    public Boolean AgregarProductos(Producto prod) {
+        try {
+            cn = ConectarBD.abrir();
+            stm = cn.createStatement();
+            sql = "insert into tbproductos (nombre,stock,pcompra,pventa)"
+                    + "values('" + prod.getNombre() + "'," + prod.getStock() + "," + prod.getPcompra() + "," + prod.getPventa() + ")";
+            stm.executeUpdate(sql);
+            System.out.println(sql);
+            ConectarBD.cerrar();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR:" + e);
+            return false;
+        }
+
+    }
     public List<Producto> ConsultarProductos(){
         
         List<Producto> listaProductos=new ArrayList<> ();
@@ -34,6 +80,7 @@ public class GestorBD {
                 producto.setNombre(rs.getString("nombre"));
                 producto.setStock(rs.getInt("stock"));
                 producto.setPventa(rs.getDouble("pventa"));
+                producto.setPcompra(rs.getDouble("pcompra"));
                 listaProductos.add(producto);
                 
             }
